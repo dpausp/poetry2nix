@@ -286,6 +286,7 @@ lib.makeScope pkgs.newScope (self: {
     , poetrylock ? projectDir + "/poetry.lock"
     , overrides ? self.defaultPoetryOverrides
     , meta ? { }
+    , passthru ? { }
     , python ? pkgs.python3
     , pwd ? projectDir
     , preferWheels ? false
@@ -337,7 +338,7 @@ lib.makeScope pkgs.newScope (self: {
                 in
                 py.buildEnv.override args)
             ) { inherit app; };
-          };
+          } // passthru;
 
           meta = lib.optionalAttrs (lib.hasAttr "description" pyProject.tool.poetry)
             {
